@@ -12,3 +12,9 @@ class CSRForm(forms.ModelForm):
     class Meta:
         model = CSR
         exclude = ['csr', 'key', 'certificate']
+
+class CSSRForm(forms.ModelForm):
+    validity_time = forms.IntegerField(label='(Validity period in years)')
+    class Meta:
+        model = CSR
+        exclude = ['key', 'certificate']
