@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+    <div class="container">
+        <div class="jumbotron">
+           <h1>SetUp Root CA/IM :</h1>
+           <form method="post">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <input class="btn btn-primary" type="submit" value="SetUp Root CA/IM">
+            </form>
+        </div>
+    </div>
+{% endblock body_block %}
+
