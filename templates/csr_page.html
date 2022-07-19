@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+    <div class="container">
+        <div class="jumbotron">
+           <h1>Create and Sign CSR :</h1>
+           <form method="post">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <input class="btn btn-primary" type="submit" value="Sign CSR">
+            </form>
+        </div>
+    </div>
+{% endblock body_block %}
+

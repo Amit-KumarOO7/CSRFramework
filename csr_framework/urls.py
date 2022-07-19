@@ -20,5 +20,6 @@ from ca_intermediate import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('caim/', include('ca_intermediate.urls')),
+    path('csr_cert/', include('csr_cert.urls')),
     path('', views.IndexView.as_view(),name='index'),
 ]
