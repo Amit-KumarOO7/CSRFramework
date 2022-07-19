@@ -16,6 +16,7 @@ class IndexView(TemplateView):
 
 def RootCAIMView(request):
     form = RootCAIMForm()
+    gen_cert = "NaN"
     if request.method == 'POST':
         form = RootCAIMForm(request.POST)
         
@@ -44,5 +45,6 @@ def RootCAIMView(request):
             form.instance.certificate = crypto.dump_certificate(crypto.FILETYPE_PEM,cert).decode()
             form.instance.key = crypto.dump_privatekey(crypto.FILETYPE_PEM,key).decode()
             form.save()
-    return render(request,'caim_page.html', {'form':form})
+            gen_cert = crypto.dump_certificate(crypto.FILETYPE_PEM,cert).decode()
+    return render(request,'caim_page.html', {'form':form, 'cert': gen_cert})
 

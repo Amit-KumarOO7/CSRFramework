@@ -9,6 +9,9 @@ from ca_intermediate.models import RootCAIM
 
 def CSRView(request):
     form = CSRForm()
+    gen_cert = "NaN"
+    gen_csr = "NaN"
+    gen_key = "NaN"
     if request.method == 'POST':
         form = CSRForm(request.POST)
 
@@ -46,7 +49,10 @@ def CSRView(request):
             form.instance.key = crypto.dump_privatekey(crypto.FILETYPE_PEM,key).decode()
             #form.save
             form.save()
-    return render(request,'csr_page.html',{'form':form})
+            gen_csr = crypto.dump_certificate_request(crypto.FILETYPE_PEM,req).decode()
+            gen_cert = crypto.dump_certificate(crypto.FILETYPE_PEM,cert).decode()
+            gen_key =  crypto.dump_privatekey(crypto.FILETYPE_PEM,key).decode()
+    return render(request,'csr_page.html',{'form':form, 'csr': gen_csr, 'cert': gen_cert, 'key' : gen_key})
 
 
 
