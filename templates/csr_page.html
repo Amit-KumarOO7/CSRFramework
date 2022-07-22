@@ -13,12 +13,11 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                 Show certs
             </button>
+            <a href="{{path}}" class="btn btn-primary" download>Download certs</a>
+            <a href="http://127.0.0.1:8000/csr_cert/certChain/{{id}}" class="btn btn-primary">Download cert chain</a>
         </div>
         
     </div>
-    
-    <!-- Button trigger modal -->
-
   
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

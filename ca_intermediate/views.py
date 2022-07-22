@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 
 # Create your views here.
 from unicodedata import name
@@ -15,8 +15,12 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
 def RootCAIMView(request):
+    allCas = RootCAIM.objects.all()
+
     form = RootCAIMForm()
     gen_cert = "NaN"
+    download_path = 'http://127.0.0.1:8000/static/ca/certificate.pem'
+
     if request.method == 'POST':
         form = RootCAIMForm(request.POST)
         
@@ -33,7 +37,10 @@ def RootCAIMView(request):
             cert.get_subject().O = form.cleaned_data['org_name']
             cert.get_subject().OU = form.cleaned_data['org_unit']
             cert.set_pubkey(key)
+
             if form.cleaned_data['set_issuer'] == None:
+                # if len(allCas) > 0:
+                #     return HttpResponse("Error Root CA already exists!")
                 cert.set_issuer(cert.get_subject())
                 cert.sign(key,"sha256")
             else:
@@ -45,6 +52,12 @@ def RootCAIMView(request):
             form.instance.certificate = crypto.dump_certificate(crypto.FILETYPE_PEM,cert).decode()
             form.instance.key = crypto.dump_privatekey(crypto.FILETYPE_PEM,key).decode()
             form.save()
+            
             gen_cert = crypto.dump_certificate(crypto.FILETYPE_PEM,cert).decode()
-    return render(request,'caim_page.html', {'form':form, 'cert': gen_cert})
+            print(gen_cert)
 
+            f = open('./static/ca/certificate.pem', 'w')
+            f.write(gen_cert)
+            f.close()
+
+    return render(request, 'caim_page.html', {'form':form, 'cert': gen_cert, 'size': len(allCas), 'path': download_path})
