@@ -13,7 +13,9 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                 Show certs
             </button>
-            <a href="{{path}}" class="btn btn-primary" download>Download certs</a>
+            <a href="{{path}}/csr.pem" id="one" class="btn btn-primary" onClick="myFun()" download>Download certs</a>
+            <a href="{{path}}/cert.pem" id="two" style="display: none;" class="btn btn-primary" download>Download 2</a>
+            <a href="{{path}}/key.pem" id="three" style="display: none;" class="btn btn-primary" download>Download 3</a>
             <a href="http://127.0.0.1:8000/csr_cert/certChain/{{id}}" class="btn btn-primary">Download cert chain</a>
         </div>
         
@@ -45,6 +47,17 @@
       </div>
     </div>
   </div>
+
+  <script>
+    function myFun(){
+      var url = document.getElementById('two').href;
+      window.open(url);
+      setTimeout(() => {
+        console.log("Delayed for 1 second.");
+        document.getElementById('three').click()
+      }, "1000")
+    }
+  </script>
 
 {% endblock body_block %}
 

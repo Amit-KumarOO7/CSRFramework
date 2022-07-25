@@ -15,7 +15,7 @@ def CSRView(request):
     gen_cert = "NaN"
     gen_csr = "NaN"
     gen_key = "NaN"
-    download_path = 'http://127.0.0.1:8000/static/cert/certs.pem'
+    download_path = 'http://127.0.0.1:8000/static/cert'
     temp = 0
 
     if request.method == 'POST':
@@ -73,17 +73,15 @@ def CSRView(request):
 
             temp = CSR.objects.get(csr=gen_csr).id
 
-            f = open('./static/cert/certs.pem', 'w')
-            f.write('CSR:\n')
+            f = open('./static/cert/csr.pem', 'w')
             f.write(gen_csr)
             f.close()
 
-            f = open('./static/cert/certs.pem', 'a')
-            f.write('\n')
-            f.write('CERTIFICATE:\n')
+            f = open('./static/cert/cert.pem', 'w')
             f.write(gen_cert)
-            f.write('\n')
-            f.write('KEY:\n')
+            f.close()
+            
+            f = open('./static/cert/key.pem', 'w')
             f.write(gen_key)
             f.close()
 
@@ -94,26 +92,27 @@ def CSSRView(request):
     gen_cert = "NaN"
     gen_key = "NaN"
     content = "Nan"
+    download_path = 'http://127.0.0.1:8000/static/cert/certificate.pem'
+    temp = 0
 
     if request.method == 'POST':
-        print(form.is_valid())
         form = CSSRForm(request.POST)
-
-        if request.POST['checkit'] == "upload":
-            content = request.FILES['file'].read().decode()
+        print(form.is_valid())
 
         if form.is_valid():
             print('Creating CSR and sign using ')
             digest = "sha256"
 
             if request.POST['checkit'] == "paste":
-                print("here")
                 content = form.cleaned_data['csr']
 
+            if request.POST['checkit'] == "upload":
+                content = request.FILES['file'].read().decode()
+
             print(content)
-            print("ok")
 
             req = crypto.load_certificate_request(crypto.FILETYPE_PEM,content)
+            form.instance.csr =  crypto.dump_certificate_request(crypto.FILETYPE_PEM,req).decode()
             #generate key #the key is already set for the csr no need to sign it
             # key = crypto.PKey()
             # key.generate_key(crypto.TYPE_RSA,2048)
@@ -141,10 +140,15 @@ def CSSRView(request):
             form.save()
             gen_cert = crypto.dump_certificate(crypto.FILETYPE_PEM,cert).decode()
             #gen_key =  crypto.dump_privatekey(crypto.FILETYPE_PEM,key).decode()
-
             print(gen_cert)
 
-    return render(request,'csr_two.html',{'form':form, 'cert': gen_cert})
+            f = open('./static/cert/certificate.pem', 'w')
+            f.write(gen_cert)
+            f.close()
+
+            temp = CSR.objects.get(certificate=gen_cert).id
+            
+    return render(request,'csr_two.html',{'form':form, 'cert': gen_cert,  'path': download_path, 'id':temp})
 
 
 def getCertChain(request, id):
