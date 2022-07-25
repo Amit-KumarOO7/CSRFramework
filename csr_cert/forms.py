@@ -4,7 +4,7 @@ from .models import CSR
 
 class CSRForm(forms.ModelForm):
     common_name = forms.CharField(max_length=264, required=True)
-    validity_time = forms.IntegerField(label='(Validity period in years)')
+    validity_time = forms.IntegerField(label='(Validity period in days)')
     country_code = forms.CharField(max_length=2, required=False)
     state = forms.CharField(max_length=256, required=False)
     org_name = forms.CharField(max_length=264) 
@@ -16,7 +16,7 @@ class CSRForm(forms.ModelForm):
         exclude = ['csr', 'key', 'certificate']
 
 class CSSRForm(forms.ModelForm):
-    validity_time = forms.IntegerField(label='(Validity period in years)')
+    validity_time = forms.IntegerField(label='(Validity period in days)')
     class Meta:
         model = CSR
         exclude = ['key', 'certificate'] 

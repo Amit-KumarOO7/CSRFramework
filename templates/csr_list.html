@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+    <div class="container">
+        <div class="jumbotron">
+           <h1>Certificate List</h1>
+           {% if csr_list %}
+           <ul>
+                {% for csr in csr_list %}
+                <li>
+                    <a href="{{ csr.id }}">{{csr.name}}</a> ({{ csr.common_name }})
+                </li>
+                {% endfor %}
+           </ul>
+           {% else %}
+            <p>There is no certificates to show! :(</p>
+           {% endif %}
+        </div>
+    </div>
+{% endblock body_block %}
+<!-- {% block pagination %}
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+  {% endblock %} -->

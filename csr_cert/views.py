@@ -7,6 +7,7 @@ from ca_intermediate.models import RootCAIM
 from django.views.static import serve
 import os
 from Crypto.PublicKey import RSA
+from django.views.generic import ListView, DetailView
 
 # Create your views here.
 
@@ -56,7 +57,7 @@ def CSRView(request):
             #creatin cert obj and using req to and obj key to sign cert
             cert = crypto.X509()
             cert.gmtime_adj_notBefore(0)
-            cert.gmtime_adj_notAfter(form.cleaned_data['validity_time']*365*86400)
+            cert.gmtime_adj_notAfter(form.cleaned_data['validity_time']*86400)
             cert.set_subject(req.get_subject())
             cert.set_issuer(issuerCert.get_subject())
             cert.sign(issuerKey,digest)
@@ -128,7 +129,7 @@ def CSSRView(request):
             #creatin cert obj and using req to and obj key to sign cert
             cert = crypto.X509()
             cert.gmtime_adj_notBefore(0)
-            cert.gmtime_adj_notAfter(form.cleaned_data['validity_time']*365*86400)
+            cert.gmtime_adj_notAfter(form.cleaned_data['validity_time']*86400)
             cert.set_subject(req.get_subject())
             cert.set_issuer(issuerCert.get_subject())
             cert.sign(issuerKey,digest)
@@ -175,3 +176,13 @@ def getCertChain(request, id):
 
     filepath = './static/certChain/certs.pem'
     return serve(request, os.path.basename(filepath), os.path.dirname(filepath))
+
+
+class CertListView(ListView):
+    model = CSR
+    template_name = 'csr_list.html'
+    # paginate_by = 10
+
+class CertDetailView(DetailView):
+    model = CSR
+    template_name = 'csr_detail.html'

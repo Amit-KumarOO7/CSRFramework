@@ -40,7 +40,7 @@ def RootCAIMView(request):
             cert = crypto.X509()
             cert.get_subject().CN = form.cleaned_data['common_name']
             cert.gmtime_adj_notBefore(0)
-            cert.gmtime_adj_notAfter(form.cleaned_data['validity_time']*365*86400)
+            cert.gmtime_adj_notAfter(form.cleaned_data['validity_time']*86400)
             cert.get_subject().C = form.cleaned_data['country_code']
             cert.get_subject().ST = form.cleaned_data['state']
             cert.get_subject().O = form.cleaned_data['org_name']

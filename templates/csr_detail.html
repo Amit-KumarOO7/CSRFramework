@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+    <div class="container">
+        <div class="jumbotron">
+          <h1>Name : {{ csr.name }}</h1>
+          <p><strong>Url:</strong> {{ csr.common_name }}</p>
+          <p><strong>Issuer:</strong><br> {{ csr.set_issuer }}</p>
+          <p style="margin-left: 1%;"><strong>CSR:</strong><br> {{ csr.csr }}</p>
+          <p><strong>Certificate:</strong><br> {{ csr.certificate }}</p>
+          <p><strong>Key:</strong><br> {{ csr.key }}</p>
+        </div>
+    </div>
+{% endblock body_block %}
