@@ -6,9 +6,9 @@
           <h1>Name : {{ csr.name }}</h1>
           <p><strong>Url:</strong> {{ csr.common_name }}</p>
           <p><strong>Issuer:</strong><br> {{ csr.set_issuer }}</p>
-          <p style="margin-left: 1%;"><strong>CSR:</strong><br> {{ csr.csr }}</p>
-          <p><strong>Certificate:</strong><br> {{ csr.certificate }}</p>
-          <p><strong>Key:</strong><br> {{ csr.key }}</p>
+          <p style="margin-left: 1%;"><strong>CSR:</strong><br> <pre>{{ csr.csr }}</pre></p>
+          <p><strong>Certificate:</strong><br> <pre>{{ csr.certificate }}</pre></p>
+          <p><strong>Key:</strong><br><pre> {{ csr.key }}<pre></p>
         </div>
     </div>
 {% endblock body_block %}
