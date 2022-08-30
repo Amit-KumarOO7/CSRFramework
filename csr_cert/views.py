@@ -181,7 +181,7 @@ def getCertChain(request, id):
 class CertListView(ListView):
     model = CSR
     template_name = 'csr_list.html'
-    # paginate_by = 10
+    paginate_by = 2
 
 class CertDetailView(DetailView):
     model = CSR
